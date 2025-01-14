@@ -359,13 +359,13 @@ jobs:
             destination: 'generic/platform=iOS'
             archive: build/SFI.xcarchive
             upload: SFI/Upload.plist
-          - name: macOS
-            if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'app-store'|| inputs.build == 'macOS' }}
-            platform: macos
-            scheme: SFM
-            destination: 'generic/platform=macOS'
-            archive: build/SFM.xcarchive
-            upload: SFI/Upload.plist
+          # - name: macOS
+          #   if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'app-store'|| inputs.build == 'macOS' }}
+          #   platform: macos
+          #   scheme: SFM
+          #   destination: 'generic/platform=macOS'
+          #   archive: build/SFM.xcarchive
+          #   upload: SFI/Upload.plist
           - name: tvOS
             if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'app-store'|| inputs.build == 'tvOS' }}
             platform: tvos
@@ -533,7 +533,7 @@ jobs:
           path: 'dist'
   upload:
     name: Upload builds
-    if: always() && github.event_name == 'workflow_dispatch' && (inputs.build == 'All' || inputs.build == 'Binary' || inputs.build == 'Android' || inputs.build == 'Apple' || inputs.build == 'macOS-standalone')
+    if: always() && github.event_name == 'workflow_dispatch' && (inputs.build == 'All' || inputs.build == 'Binary' || inputs.build == 'Android' || inputs.build == 'Apple' || inputs.build == 'macOS-standalone' || inputs.build == 'iOS')
     runs-on: ubuntu-latest
     needs:
       - calculate_version
