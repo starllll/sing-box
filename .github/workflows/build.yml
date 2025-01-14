@@ -501,7 +501,7 @@ jobs:
       #   run: |-
       #     go run -v ./cmd/internal/app_store_connect publish_testflight ${{ matrix.platform }}
       - name: Build image
-        if: matrix.if && matrix.name == 'macOS-standalone' && github.event_name == 'workflow_dispatch'
+        if: matrix.if && matrix.name == 'macOS-standalone' 
         run: |-
           pushd clients/apple
           xcodebuild -exportArchive \
@@ -526,7 +526,7 @@ jobs:
           cp clients/apple/SFM.dmg "dist/release/SFM-${VERSION}-universal.dmg"
           cp "clients/apple/${{ matrix.archive }}/SFM.dSYMs.zip" "dist/release/SFM-${VERSION}-universal.dSYMs.zip"
       - name: Upload image
-        if: matrix.if && (matrix.name == 'macOS-standalone' || matrix.name == 'iOS') && github.event_name == 'workflow_dispatch'
+        if: matrix.if && (matrix.name == 'macOS-standalone' || matrix.name == 'iOS') 
         uses: actions/upload-artifact@v4
         with:
           name: binary-macos-dmg
