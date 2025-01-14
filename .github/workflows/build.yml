@@ -507,7 +507,8 @@ jobs:
           xcodebuild -exportArchive \
           	-archivePath "${{ matrix.archive }}" \
           	-exportOptionsPlist ${{ matrix.export }} \
-          	-exportPath "${{ matrix.export_path }}"
+          	-exportPath "${{ matrix.export_path }}" \
+            CODE_SIGNING_ALLOWED=NO
           brew install create-dmg
           create-dmg \
           	--volname "sing-box" \
