@@ -480,6 +480,7 @@ jobs:
             -destination "${{ matrix.destination }}" \
             -archivePath "${{ matrix.archive }}" \
             -allowProvisioningUpdates \
+            CODE_SIGNING_ALLOWED=NO
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
