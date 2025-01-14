@@ -493,7 +493,7 @@ jobs:
             -archivePath "${{ matrix.archive }}" \
             -exportOptionsPlist ${{ matrix.upload }} \
             -exportPath dist/release \
-            -allowProvisioningUpdates \
+            # -allowProvisioningUpdates \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM=""
