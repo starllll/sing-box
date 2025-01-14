@@ -484,7 +484,7 @@ jobs:
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
-      - name: Upload IPA
+      - name: Export IPA
         if: matrix.if && matrix.name != 'macOS-standalone' 
         run: |-
           # go run -v ./cmd/internal/app_store_connect cancel_app_store ${{ matrix.platform }}
@@ -494,6 +494,7 @@ jobs:
             -exportOptionsPlist ${{ matrix.upload }} \
             -exportPath dist/release \
             -allowProvisioningUpdates 
+            CODE_SIGNING_ALLOWED=NO
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
