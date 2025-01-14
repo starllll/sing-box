@@ -479,24 +479,25 @@ jobs:
             -destination "${{ matrix.destination }}" \
             -archivePath "${{ matrix.archive }}" \
             -allowProvisioningUpdates \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY=""
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
-      - name: Export IPA
-        if: matrix.if && matrix.name != 'macOS-standalone' 
-        run: |-
-          # go run -v ./cmd/internal/app_store_connect cancel_app_store ${{ matrix.platform }}
-          cd clients/apple
-          xcodebuild -exportArchive \
-            -archivePath "${{ matrix.archive }}" \
-            -exportOptionsPlist ${{ matrix.upload }} \
-            -exportPath dist/release \
-            -allowProvisioningUpdates \
-            CODE_SIGNING_ALLOWED=NO
-            # -authenticationKeyPath $ASC_KEY_PATH \
-            # -authenticationKeyID $ASC_KEY_ID \
-            # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
+      # - name: Export IPA
+      #   if: matrix.if && matrix.name != 'macOS-standalone' 
+      #   run: |-
+      #     # go run -v ./cmd/internal/app_store_connect cancel_app_store ${{ matrix.platform }}
+      #     cd clients/apple
+      #     xcodebuild -exportArchive \
+      #       -archivePath "${{ matrix.archive }}" \
+      #       -exportOptionsPlist ${{ matrix.upload }} \
+      #       -exportPath dist/release \
+      #       -allowProvisioningUpdates \
+      #       CODE_SIGNING_ALLOWED=NO
+      #       # -authenticationKeyPath $ASC_KEY_PATH \
+      #       # -authenticationKeyID $ASC_KEY_ID \
+      #       # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
       # - name: Publish to TestFlight
       #   if: matrix.if && matrix.name != 'macOS-standalone' && github.event_name == 'workflow_dispatch' && github.ref =='refs/heads/dev-next'
       #   run: |-
@@ -527,6 +528,19 @@ jobs:
           mkdir -p dist/release
           cp clients/apple/SFM.dmg "dist/release/SFM-${VERSION}-universal.dmg"
           cp "clients/apple/${{ matrix.archive }}/SFM.dSYMs.zip" "dist/release/SFM-${VERSION}-universal.dSYMs.zip"
+      - name: Extract .app from .xcarchive
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        run: |-
+          mkdir -p dist/release
+          cp -R "${{ matrix.archive }}/Products/Applications/*.app" dist/release/
+
+      - name: Package Unsigned IPA
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        run: |-
+          mkdir Payload
+          mv dist/release/*.app Payload/
+          zip -r dist/release/unsigned-app.ipa Payload
+          rm -rf Payload
       - name: Upload IPA
         if: matrix.if && matrix.name != 'macOS-standalone' 
         uses: actions/upload-artifact@v4
