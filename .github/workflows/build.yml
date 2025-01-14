@@ -31,6 +31,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}-${{ inputs.build }}
   cancel-in-progress: true
 
+
 jobs:
   calculate_version:
     name: Calculate version
