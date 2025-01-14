@@ -366,13 +366,13 @@ jobs:
           #   destination: 'generic/platform=macOS'
           #   archive: build/SFM.xcarchive
           #   upload: SFI/Upload.plist
-          - name: tvOS
-            if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'app-store'|| inputs.build == 'tvOS' }}
-            platform: tvos
-            scheme: SFT
-            destination: 'generic/platform=tvOS'
-            archive: build/SFT.xcarchive
-            upload: SFI/Upload.plist
+          # - name: tvOS
+          #   if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'app-store'|| inputs.build == 'tvOS' }}
+          #   platform: tvos
+          #   scheme: SFT
+          #   destination: 'generic/platform=tvOS'
+          #   archive: build/SFT.xcarchive
+          #   upload: SFI/Upload.plist
           - name: macOS-standalone
             if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'macOS-standalone' }}
             platform: macos
@@ -394,29 +394,29 @@ jobs:
         with:
           go-version: ^1.23
       - name: Setup Xcode stable
-        if: matrix.if && github.ref == 'refs/heads/main-next'
+        if: matrix.if && github.ref == 'refs/heads/self'
         run: |-
           sudo xcode-select -s /Applications/Xcode_16.2.app
-      - name: Setup Xcode beta
-        if: matrix.if && github.ref == 'refs/heads/dev-next'
-        run: |-
-          sudo xcode-select -s /Applications/Xcode_16.2.app
+      # - name: Setup Xcode beta
+      #   if: matrix.if && github.ref == 'refs/heads/dev-next'
+      #   run: |-
+      #     sudo xcode-select -s /Applications/Xcode_16.2.app
       - name: Set tag
         if: matrix.if
         run: |-
           git ls-remote --exit-code --tags origin v${{ needs.calculate_version.outputs.version }} || echo "PUBLISHED=false" >> "$GITHUB_ENV"
           git tag v${{ needs.calculate_version.outputs.version }} -f
           echo "VERSION=${{ needs.calculate_version.outputs.version }}" >> "$GITHUB_ENV"
-      - name: Checkout main branch
-        if: matrix.if && github.ref == 'refs/heads/main-next' && github.event_name != 'workflow_dispatch'
+      - name: Checkout self branch
+        if: matrix.if && github.ref == 'refs/heads/self' && github.event_name != 'workflow_dispatch'
         run: |-
           cd clients/apple
           git checkout main
-      - name: Checkout dev branch
-        if: matrix.if && github.ref == 'refs/heads/dev-next'
-        run: |-
-          cd clients/apple
-          git checkout dev
+      # - name: Checkout dev branch
+      #   if: matrix.if && github.ref == 'refs/heads/dev-next'
+      #   run: |-
+      #     cd clients/apple
+      #     git checkout dev
       # - name: Setup certificates
       #   if: matrix.if
       #   run: |-
