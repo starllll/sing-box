@@ -373,14 +373,14 @@ jobs:
           #   destination: 'generic/platform=tvOS'
           #   archive: build/SFT.xcarchive
           #   upload: SFI/Upload.plist
-          - name: macOS-standalone
-            if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'macOS-standalone' }}
-            platform: macos
-            scheme: SFM.System
-            destination: 'generic/platform=macOS'
-            archive: build/SFM.System.xcarchive
-            export: SFM.System/Export.plist
-            export_path: build/SFM.System
+          # - name: macOS-standalone
+          #   if: ${{ github.event_name != 'workflow_dispatch' || inputs.build == 'All' || inputs.build == 'Apple' || inputs.build == 'macOS-standalone' }}
+          #   platform: macos
+          #   scheme: SFM.System
+          #   destination: 'generic/platform=macOS'
+          #   archive: build/SFM.System.xcarchive
+          #   export: SFM.System/Export.plist
+          #   export_path: build/SFM.System
     steps:
       - name: Checkout
         if: matrix.if
@@ -484,18 +484,19 @@ jobs:
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
-      # - name: Upload to App Store Connect
-      #   if: matrix.if && matrix.name != 'macOS-standalone' && github.event_name == 'workflow_dispatch'
-      #   run: |-
-      #     go run -v ./cmd/internal/app_store_connect cancel_app_store ${{ matrix.platform }}
-      #     cd clients/apple
-      #     xcodebuild -exportArchive \
-      #       -archivePath "${{ matrix.archive }}" \
-      #       -exportOptionsPlist ${{ matrix.upload }} \
-      #       -allowProvisioningUpdates \
-      #       -authenticationKeyPath $ASC_KEY_PATH \
-      #       -authenticationKeyID $ASC_KEY_ID \
-      #       -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
+      - name: Upload IPA
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        run: |-
+          # go run -v ./cmd/internal/app_store_connect cancel_app_store ${{ matrix.platform }}
+          cd clients/apple
+          xcodebuild -exportArchive \
+            -archivePath "${{ matrix.archive }}" \
+            -exportOptionsPlist ${{ matrix.upload }} \
+            -exportPath dist/release \
+            -allowProvisioningUpdates 
+            # -authenticationKeyPath $ASC_KEY_PATH \
+            # -authenticationKeyID $ASC_KEY_ID \
+            # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
       # - name: Publish to TestFlight
       #   if: matrix.if && matrix.name != 'macOS-standalone' && github.event_name == 'workflow_dispatch' && github.ref =='refs/heads/dev-next'
       #   run: |-
@@ -527,8 +528,14 @@ jobs:
           mkdir -p dist/release
           cp clients/apple/SFM.dmg "dist/release/SFM-${VERSION}-universal.dmg"
           cp "clients/apple/${{ matrix.archive }}/SFM.dSYMs.zip" "dist/release/SFM-${VERSION}-universal.dSYMs.zip"
+      - name: Upload IPA
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app
+          path: dist/release/*.ipa
       - name: Upload image
-        if: matrix.if && (matrix.name == 'macOS-standalone' || matrix.name == 'iOS') 
+        if: matrix.if && (matrix.name == 'macOS-standalone') 
         uses: actions/upload-artifact@v4
         with:
           name: binary-macos-dmg
