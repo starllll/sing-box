@@ -531,6 +531,7 @@ jobs:
       - name: Extract .app from .xcarchive
         if: matrix.if && matrix.name != 'macOS-standalone' 
         run: |-
+          pwd
           mkdir -p dist/release
           cp -R "${{ matrix.archive }}/Products/Applications/*.app" dist/release/
 
