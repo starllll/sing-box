@@ -505,11 +505,10 @@ jobs:
         if: matrix.if && matrix.name == 'macOS-standalone' 
         run: |-
           pushd clients/apple
-          xcodebuild archive \
-          	-scheme "${{ matrix.scheme }}" \
-            -configuration Release \
-            -destination "${{ matrix.destination }}" \
-            -archivePath "${{ matrix.archive }}" \
+          xcodebuild -exportArchive \
+          	-archivePath "${{ matrix.archive }}" \
+          	-exportOptionsPlist ${{ matrix.export }} \
+          	-exportPath "${{ matrix.export_path }}" \
             CODE_SIGNING_ALLOWED=NO
           brew install create-dmg
           create-dmg \
