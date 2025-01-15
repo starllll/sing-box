@@ -479,11 +479,11 @@ jobs:
             -configuration Release \
             -destination "${{ matrix.destination }}" \
             -archivePath "${{ matrix.archive }}" \
-            -derivedDataPath ios/out
+            -derivedDataPath ios/out \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO 
-            # -allowProvisioningUpdates 
+            CODE_SIGNING_ALLOWED=NO \
+            -allowProvisioningUpdates 
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
