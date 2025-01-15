@@ -462,7 +462,7 @@ jobs:
           export PATH="$PATH:$(go env GOPATH)/bin"
           go run ./cmd/internal/build_libbox -target apple -platform ${{ matrix.platform }}
           mv Libbox.xcframework clients/apple
-          ll clients/apple
+          ls -l clients/apple
       - name: Update macOS version
         if: matrix.if && matrix.name == 'macOS' && github.event_name == 'workflow_dispatch'
         run: |-
