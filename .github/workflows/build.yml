@@ -479,7 +479,7 @@ jobs:
             -configuration Release \
             -destination "${{ matrix.destination }}" \
             -archivePath "${{ matrix.archive }}" \
-            -derivedDataPath /ios/out
+            -derivedDataPath ios/out
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -487,7 +487,7 @@ jobs:
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
-          ls -l /ios/out
+          ls -l ios/out
       # - name: Export IPA
       #   if: matrix.if && matrix.name != 'macOS-standalone' 
       #   run: |-
