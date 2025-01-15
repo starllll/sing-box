@@ -535,7 +535,7 @@ jobs:
         run: |-
           pwd
           mkdir -p dist/release
-          cp -R ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/*.app" dist/release/
+          cp -R ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/*.app dist/release/
 
       - name: Package Unsigned IPA
         if: matrix.if && matrix.name != 'macOS-standalone' 
