@@ -488,6 +488,9 @@ jobs:
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
           ls -l ios/out
+          mkdir -p dist/release
+          cp -R Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app dist/release/
+          ls -l dist/release
       # - name: Export IPA
       #   if: matrix.if && matrix.name != 'macOS-standalone' 
       #   run: |-
@@ -530,14 +533,14 @@ jobs:
           mkdir -p dist/release
           cp clients/apple/SFM.dmg "dist/release/SFM-${VERSION}-universal.dmg"
           cp "clients/apple/${{ matrix.archive }}/SFM.dSYMs.zip" "dist/release/SFM-${VERSION}-universal.dSYMs.zip"
-      - name: Extract .app from .xcarchive
-        if: matrix.if && matrix.name != 'macOS-standalone' 
-        run: |-
-          pwd
-          mkdir -p dist/release
-          ls -l clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/
-          ls -l clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app
-          cp -R /Users/runner/work/sing-box/sing-box/clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app dist/release/
+      # - name: Extract .app from .xcarchive
+      #   if: matrix.if && matrix.name != 'macOS-standalone' 
+      #   run: |-
+      #     pwd
+      #     mkdir -p dist/release
+      #     ls -l clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/
+      #     ls -l clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app
+      #     cp -R /Users/runner/work/sing-box/sing-box/clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app dist/release/
 
       - name: Package Unsigned IPA
         if: matrix.if && matrix.name != 'macOS-standalone' 
