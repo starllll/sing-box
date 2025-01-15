@@ -478,10 +478,7 @@ jobs:
             -configuration Release \
             -destination "${{ matrix.destination }}" \
             -archivePath "${{ matrix.archive }}" \
-            -allowProvisioningUpdates \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="" \
-            DEVELOPMENT_TEAM="0000000000"
+            -allowProvisioningUpdates
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
@@ -493,11 +490,7 @@ jobs:
           xcodebuild -exportArchive \
             -archivePath "${{ matrix.archive }}" \
             -exportOptionsPlist ${{ matrix.upload }} \
-            -exportPath dist/release \
-            # -allowProvisioningUpdates \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="" \
-            DEVELOPMENT_TEAM="0000000000"
+            -allowProvisioningUpdates
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
