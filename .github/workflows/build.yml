@@ -488,9 +488,15 @@ jobs:
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
           ls -l ios/out
-          mkdir -p dist/release
-          cp -R "ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app" dist/release/
-          ls -l dist/release
+          ls -l ios/out/Build
+          ls -l ios/out/Build/Intermediates.noindex
+          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates
+          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI
+          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation
+          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications
+          # mkdir -p dist/release
+          # cp -R "ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app" dist/release/
+          # ls -l dist/release
       # - name: Export IPA
       #   if: matrix.if && matrix.name != 'macOS-standalone' 
       #   run: |-
