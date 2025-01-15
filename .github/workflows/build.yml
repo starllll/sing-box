@@ -530,20 +530,20 @@ jobs:
           mkdir -p dist/release
           cp clients/apple/SFM.dmg "dist/release/SFM-${VERSION}-universal.dmg"
           cp "clients/apple/${{ matrix.archive }}/SFM.dSYMs.zip" "dist/release/SFM-${VERSION}-universal.dSYMs.zip"
-      # - name: Extract .app from .xcarchive
-      #   if: matrix.if && matrix.name != 'macOS-standalone' 
-      #   run: |-
-      #     pwd
-      #     mkdir -p dist/release
-      #     cp -R "${{ matrix.archive }}/Products/Applications/*.app" dist/release/
+      - name: Extract .app from .xcarchive
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        run: |-
+          pwd
+          mkdir -p dist/release
+          cp -R ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/*.app" dist/release/
 
-      # - name: Package Unsigned IPA
-      #   if: matrix.if && matrix.name != 'macOS-standalone' 
-      #   run: |-
-      #     mkdir Payload
-      #     mv dist/release/*.app Payload/
-      #     zip -r dist/release/unsigned-app.ipa Payload
-      #     rm -rf Payload
+      - name: Package Unsigned IPA
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        run: |-
+          mkdir Payload
+          mv dist/release/*.app Payload/
+          zip -r dist/release/unsigned-app.ipa Payload
+          rm -rf Payload
       - name: Upload IPA
         if: matrix.if && matrix.name != 'macOS-standalone' 
         uses: actions/upload-artifact@v4
