@@ -474,26 +474,34 @@ jobs:
           go run -v ./cmd/internal/update_apple_version --ci
           export CONFIGURATION_BUILD_DIR="${{ matrix.archive }}"
           cd clients/apple
-          xcodebuild archive \
+          xcodebuild clean build \
+            -workspace sing-box.xcodeproj \
             -scheme "${{ matrix.scheme }}" \
-            -configuration Release \
+            -configuration Debug \
+            -sdk iphonesimulator \
             -destination "${{ matrix.destination }}" \
-            -archivePath "${{ matrix.archive }}" \
-            -derivedDataPath ios/out \
-            CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            -allowProvisioningUpdates 
+            CODE_SIGNING_ALLOWED=NO
+          # xcodebuild archive \
+          #   -scheme "${{ matrix.scheme }}" \
+          #   -configuration Release \
+          #   -destination "${{ matrix.destination }}" \
+          #   -archivePath "${{ matrix.archive }}" \
+          #   -derivedDataPath ios/out \
+          #   CODE_SIGN_IDENTITY="" \
+          #   CODE_SIGNING_REQUIRED=NO \
+          #   CODE_SIGNING_ALLOWED=NO \
+          #   -allowProvisioningUpdates 
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
-          ls -l ios/out
-          ls -l ios/out/Build
-          ls -l ios/out/Build/Intermediates.noindex
-          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates
-          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI
-          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation
-          ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications
+          # ls -l ios/out
+          # ls -l ios/out/Build
+          # ls -l ios/out/Build/Intermediates.noindex
+          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates
+          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI
+          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation
+          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications
           # mkdir -p dist/release
           # cp -R "ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app" dist/release/
           # ls -l dist/release
