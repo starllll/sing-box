@@ -497,15 +497,6 @@ jobs:
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
           ls -l $GITHUB_WORKSPACE/output/ios-build
-          # ls -l ios/out/Build
-          # ls -l ios/out/Build/Intermediates.noindex
-          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates
-          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI
-          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation
-          # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications
-          # mkdir -p dist/release
-          # cp -R "ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app" dist/release/
-          # ls -l dist/release
       # - name: Export IPA
       #   if: matrix.if && matrix.name != 'macOS-standalone' 
       #   run: |-
@@ -561,7 +552,7 @@ jobs:
         if: matrix.if && matrix.name != 'macOS-standalone' 
         run: |-
           mkdir Payload
-          mv dist/release/*.app Payload/
+          mv $GITHUB_WORKSPACE/output/ios-build/*.app Payload/
           zip -r dist/release/unsigned-app.ipa Payload
           rm -rf Payload
       - name: Upload IPA
