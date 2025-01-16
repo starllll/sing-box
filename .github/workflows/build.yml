@@ -475,7 +475,7 @@ jobs:
           export CONFIGURATION_BUILD_DIR="${{ matrix.archive }}"
           cd clients/apple
           xcodebuild clean build \
-            -workspace sing-box.xcodeproj \
+            -project sing-box.xcodeproj \
             -scheme "${{ matrix.scheme }}" \
             -configuration Debug \
             -sdk iphonesimulator \
