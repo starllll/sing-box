@@ -548,19 +548,20 @@ jobs:
       #     ls -l clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app
       #     cp -R /Users/runner/work/sing-box/sing-box/clients/apple/ios/out/Build/Intermediates.noindex/ArchiveIntermediates/SFI/InstallationBuildProductsLocation/Applications/sing-box.app dist/release/
 
-      # - name: Package Unsigned IPA
-      #   if: matrix.if && matrix.name != 'macOS-standalone' 
-      #   run: |-
-      #     mkdir Payload
-      #     mv $GITHUB_WORKSPACE/output/ios-build/*.app Payload/
-      #     zip -r dist/release/unsigned-app.ipa Payload
-      #     rm -rf Payload
+      - name: Package Unsigned IPA
+        if: matrix.if && matrix.name != 'macOS-standalone' 
+        run: |-
+          mkdir Payload
+          mv $GITHUB_WORKSPACE/output/ios-build/*.app Payload/
+          mkdir -p dist/release
+          zip -r dist/release/sing-box.ipa Payload
+          rm -rf Payload
       - name: Upload app
         if: matrix.if && matrix.name != 'macOS-standalone' 
         uses: actions/upload-artifact@v4
         with:
           name: ios-app
-          path: $GITHUB_WORKSPACE/output/ios-build/*.app
+          path: dist/release/
       - name: Upload image
         if: matrix.if && (matrix.name == 'macOS-standalone') 
         uses: actions/upload-artifact@v4
