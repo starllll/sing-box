@@ -496,7 +496,7 @@ jobs:
             # -authenticationKeyPath $ASC_KEY_PATH \
             # -authenticationKeyID $ASC_KEY_ID \
             # -authenticationKeyIssuerID $ASC_KEY_ISSUER_ID
-          # ls -l ios/out
+          ls -l $GITHUB_WORKSPACE/output/ios-build
           # ls -l ios/out/Build
           # ls -l ios/out/Build/Intermediates.noindex
           # ls -l ios/out/Build/Intermediates.noindex/ArchiveIntermediates
